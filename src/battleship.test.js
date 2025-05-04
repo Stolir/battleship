@@ -1,4 +1,4 @@
-import { Ship, GAME_BOARD, Gameboard, } from "./battleship";
+import { Ship, BOARD_SIZE, Gameboard, } from "./battleship";
 
 describe("Creates Ship object with correct values/methods", () => {
   let testShip;
@@ -33,10 +33,10 @@ describe.only("Creates Gameboard object with correct values/methods", () => {
   beforeEach(() => {testGameboard = new Gameboard()})
 
   test("Generates 2D array with correct row count", () => {
-    expect(testGameboard.board.length).toEqual(GAME_BOARD[0])
+    expect(testGameboard.board.length).toEqual(BOARD_SIZE[0])
   })
 
   test("Generates 2D array with correct column count", () => {
-    expect(testGameboard.board[0].length).toEqual(GAME_BOARD[1])
+    expect(testGameboard.board[0].length).toEqual(BOARD_SIZE[1])
   })
 })
