@@ -39,4 +39,16 @@ describe.only("Creates Gameboard object with correct values/methods", () => {
   test("Generates 2D array with correct column count", () => {
     expect(testGameboard.board[0].length).toEqual(BOARD_SIZE[1])
   })
+
+  test("Places ship horizontally on board", () => {
+    testGameboard.placeShip([0,0], new Ship(2), "horizontal"); 
+    expect(testGameboard[0,0]).toBe("ship")
+    expect(testGameboard[0,1]).toBe("ship")
+  })
+
+  test("Places ship vertically on board", () => {
+    testGameboard.placeShip([0,0], new Ship(2), "vertical"); 
+    expect(testGameboard[0,0]).toBe("ship")
+    expect(testGameboard[1,0]).toBe("ship")
+  })
 })
