@@ -25,6 +25,7 @@
     "lint": "eslint .",
     "format": "prettier . --write",
     "lintFix": "eslint . --fix",
-    "formatCheck": "prettier . --check"
+    "formatCheck": "prettier . --check",
+    "test": "jest"
   }
 }
