@@ -35,4 +35,17 @@ export class Gameboard{
     }
     return board;
   }
+
+  placeShip(coordinates, ship, orientation) {
+    if (orientation === "horizontal") {
+      for (let i = 0; i < ship.length; i++) {
+        this.board[coordinates[0]][coordinates[1] + i] = ship
+      }
+    } else {
+      for (let i = 0; i < ship.length; i++) {
+        this.board[coordinates[0] + i][coordinates[1]] = ship
+      }
+    }
+  }
+
 }
