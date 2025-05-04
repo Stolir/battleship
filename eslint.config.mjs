@@ -14,7 +14,15 @@ export default [
   },
   eslintConfigPrettier,
   {
-    ignores: ["**/node_modules/**", "dist/**"],
+    ignores: [
+      "**/node_modules/**",
+      "dist/**",
+      "**/*.test.{js,jsx}", // Covers both .test.js and .test.jsx
+      "**/*.spec.{js,jsx}", // Covers both .spec.js and .spec.jsx
+      "**/__tests__/**", // Jest test directories
+      "**/__mocks__/**",
+      "babel.config.js",
+    ],
   },
   {
     files: ["webpack.*.js"],
