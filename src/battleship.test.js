@@ -62,4 +62,18 @@ describe("Creates Gameboard object with correct values/methods", () => {
       expect(testGameboard.board[1][0]).toBeInstanceOf(Ship)
     })
   })
+
+  describe("Correctly handles attacks", () => {
+    beforeAll(() => {
+      testGameboard.placeShip([0,0], 4, "vertical")
+    })
+
+    test("Handles missed attacks", () => {
+      expect(testGameboard.recieveAttack([0,1])).toBe("missed")
+    })
+
+    test("Handles hit shots", () => {
+      expect(testGameboard.recieveAttack([0,0])).toBe("hit")
+    })
+  })
 })
