@@ -22,6 +22,13 @@ export class Ship {
 export class Gameboard{
   constructor(){
     this.board = this.#generateBoard();
+    this.ships = {
+      "destroyer": new Ship(2),
+      "submarine": new Ship(3),
+      "cruiser": new Ship(3),
+      "battleship": new Ship(4),
+      "carrier": new Ship(5)
+    }
   }
 
   #generateBoard() {
