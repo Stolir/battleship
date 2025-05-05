@@ -16,7 +16,7 @@ describe("Creates Ship object with correct values/methods", () => {
     expect(testShip.isSunk()).toBe(false);
   });
 
-  test("Returns correctly updates hits", () => {
+  test("Correctly updates hits", () => {
     testShip.hit();
     expect(testShip.hits).toBe(1);
   });
@@ -34,28 +34,32 @@ describe("Creates Gameboard object with correct values/methods", () => {
     testGameboard = new Gameboard();
   })
 
-  test("Generates 2D array with correct row count", () => {
-    expect(testGameboard.board.length).toEqual(BOARD_SIZE[0])
+  describe("Generates board correctly", () => {
+    test("Generates 2D array with correct row count", () => {
+      expect(testGameboard.board.length).toEqual(BOARD_SIZE[0])
+    })
+  
+    test("Generates 2D array with correct column count", () => {
+      expect(testGameboard.board[0].length).toEqual(BOARD_SIZE[1])
+    })
   })
 
-  test("Generates 2D array with correct column count", () => {
-    expect(testGameboard.board[0].length).toEqual(BOARD_SIZE[1])
-  })
-
-  test("Places ship on correct starting cell", () => {
-    testGameboard.placeShip([4,7], 4, "horizontal"); 
-    expect(testGameboard.board[4][7]).toBeInstanceOf(Ship)
-  })
-
-  test("Places ship horizontally on board", () => {
-    testGameboard.placeShip([0,0], 2, "horizontal"); 
-    expect(testGameboard.board[0][0]).toBeInstanceOf(Ship)
-    expect(testGameboard.board[0][1]).toBeInstanceOf(Ship)
-  })
-
-  test("Places ship vertically on board", () => {
-    testGameboard.placeShip([0,0], 2, "vertical"); 
-    expect(testGameboard.board[0][0]).toBeInstanceOf(Ship)
-    expect(testGameboard.board[1][0]).toBeInstanceOf(Ship)
+  describe("Places ships correctly", () => {
+    test("Places ship on correct starting cell", () => {
+      testGameboard.placeShip([4,7], 4, "horizontal"); 
+      expect(testGameboard.board[4][7]).toBeInstanceOf(Ship)
+    })
+  
+    test("Places ship horizontally on board", () => {
+      testGameboard.placeShip([0,0], 2, "horizontal"); 
+      expect(testGameboard.board[0][0]).toBeInstanceOf(Ship)
+      expect(testGameboard.board[0][1]).toBeInstanceOf(Ship)
+    })
+  
+    test("Places ship vertically on board", () => {
+      testGameboard.placeShip([0,0], 2, "vertical"); 
+      expect(testGameboard.board[0][0]).toBeInstanceOf(Ship)
+      expect(testGameboard.board[1][0]).toBeInstanceOf(Ship)
+    })
   })
 })
