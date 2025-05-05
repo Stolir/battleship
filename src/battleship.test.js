@@ -46,31 +46,32 @@ describe("Creates Gameboard object with correct values/methods", () => {
 
   describe("Generates ships correctly", () => {
     test("Generates correct amount of ships", () => {
-      expect(this.ships).toBe(4)
+      expect(Object.keys(testGameboard.ships).length).toBe(5)
     })
 
     test("Generates a destroyer", ()=> {
-      expect(this.ships).toHaveProperty("destroyer")
+      expect(testGameboard.ships).toHaveProperty("destroyer")
+      expect(testGameboard.ships.destroyer).toEqual(new Ship(2))
     })
 
     test("Generates a submarine", ()=> {
-      expect(this.ships).toHaveProperty("submarine")
+      expect(testGameboard.ships).toHaveProperty("submarine")
+      expect(testGameboard.ships.submarine).toEqual(new Ship(3))
     })
 
     test("Generates a cruiser", ()=> {
-      expect(this.ships).toHaveProperty("cruiser")
+      expect(testGameboard.ships).toHaveProperty("cruiser")
+      expect(testGameboard.ships.cruiser).toEqual(new Ship(3))
     })
 
     test("Generates a battleship", ()=> {
-      expect(this.ships).toHaveProperty("battleship")
-    })
-
-    test("Generates a battleship", ()=> {
-      expect(this.ships).toHaveProperty("battleship")
+      expect(testGameboard.ships).toHaveProperty("battleship")
+      expect(testGameboard.ships.battleship).toEqual(new Ship(4))
     })
 
     test("Generates a carrier", ()=> {
-      expect(this.ships).toHaveProperty("carrier")
+      expect(testGameboard.ships).toHaveProperty("carrier")
+      expect(testGameboard.ships.carrier).toEqual(new Ship(5))
     })
   })
 
