@@ -75,7 +75,11 @@ describe("Creates Gameboard object with correct values/methods", () => {
     })
   })
 
-  describe.only("Handles ship placement correctly", () => {
+  describe("Handles ship placement correctly", () => {
+    test("Handles invalid ship names", () => {
+      expect(testGameboard.placeShip([9,11], "plane", "horizontal")).toThrow("Invalid ship name")
+    })
+
     test("Places ship on correct starting cell", () => {
       testGameboard.placeShip([4,7], "carrier", "horizontal"); 
       expect(testGameboard.board[4][7]).toBeInstanceOf(Ship)
