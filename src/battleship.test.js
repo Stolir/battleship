@@ -30,10 +30,8 @@ describe("Creates Ship object with correct values/methods", () => {
 
 describe("Creates Gameboard object with correct values/methods", () => {
   let testGameboard;
-  let testShip; 
   beforeEach(() => {
     testGameboard = new Gameboard();
-    testShip = new Ship(2);
   })
 
   test("Generates 2D array with correct row count", () => {
@@ -45,19 +43,19 @@ describe("Creates Gameboard object with correct values/methods", () => {
   })
 
   test("Places ship on correct starting cell", () => {
-    testGameboard.placeShip([4,7], testShip, "horizontal"); 
-    expect(testGameboard.board[4][7]).toBe(testShip)
+    testGameboard.placeShip([4,7], 4, "horizontal"); 
+    expect(testGameboard.board[4][7]).toBeInstanceOf(Ship)
   })
 
   test("Places ship horizontally on board", () => {
-    testGameboard.placeShip([0,0], testShip, "horizontal"); 
-    expect(testGameboard.board[0][0]).toBe(testShip)
-    expect(testGameboard.board[0][1]).toBe(testShip)
+    testGameboard.placeShip([0,0], 2, "horizontal"); 
+    expect(testGameboard.board[0][0]).toBeInstanceOf(Ship)
+    expect(testGameboard.board[0][1]).toBeInstanceOf(Ship)
   })
 
   test("Places ship vertically on board", () => {
-    testGameboard.placeShip([0,0], testShip, "vertical"); 
-    expect(testGameboard.board[0][0]).toBe(testShip)
-    expect(testGameboard.board[1][0]).toBe(testShip)
+    testGameboard.placeShip([0,0], 2, "vertical"); 
+    expect(testGameboard.board[0][0]).toBeInstanceOf(Ship)
+    expect(testGameboard.board[1][0]).toBeInstanceOf(Ship)
   })
 })

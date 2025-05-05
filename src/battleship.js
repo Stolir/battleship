@@ -36,7 +36,8 @@ export class Gameboard{
     return board;
   }
 
-  placeShip(coordinates, ship, orientation) {
+  placeShip(coordinates, shipSize, orientation) {
+    const ship = new Ship(shipSize)
     if (orientation === "horizontal") {
       for (let i = 0; i < ship.length; i++) {
         this.board[coordinates[0]][coordinates[1] + i] = ship
