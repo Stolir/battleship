@@ -77,11 +77,11 @@ describe("Creates Gameboard object with correct values/methods", () => {
 
   describe("Handles ship placement correctly", () => {
     test("Handles invalid ship names", () => {
-      expect(() => testGameboard.placeShip([9,11], "plane", "horizontal")).toThrow(Error)
+      expect(() => testGameboard.placeShip([9,11], "plane", "horizontal")).toThrow(/name/)
     })
 
     test("Places ship on correct starting cell", () => {
-      testGameboard.placeShip([4,7], "carrier", "horizontal"); 
+      testGameboard.placeShip([4,6], "destroyer", "horizontal"); 
       expect(testGameboard.board[4][7]).toBeInstanceOf(Ship)
     })
   
@@ -98,12 +98,12 @@ describe("Creates Gameboard object with correct values/methods", () => {
     })
 
     test("Handles out of bounds placements", () => {
-      expect(() => testGameboard.placeShip([9,11], "destroyer", "horizontal")).toThrow(Error)
+      expect(() => testGameboard.placeShip([9,11], "destroyer", "horizontal")).toThrow(/bounds/)
     })
 
     test("Handles already occupied placements", () => {
       testGameboard.placeShip([0,1], "carrier", "vertical")
-      expect(() => testGameboard.placeShip([1,0], "submarine", "horizontal")).toThrow(Error)
+      expect(() => testGameboard.placeShip([1,0], "submarine", "horizontal")).toThrow(/occupied/)
     })
   })
 
@@ -118,6 +118,10 @@ describe("Creates Gameboard object with correct values/methods", () => {
 
     test("Handles hit shots", () => {
       expect(testGameboard.recieveAttack([0,0])).toBe("hit")
+    })
+
+    test("Handles out of bounds attacks", () => {
+      expect(() => testGameboard.recieveAttack([9,11])).toThrow(/bounds/)
     })
   })
 })
