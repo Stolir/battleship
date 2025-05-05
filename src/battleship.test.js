@@ -44,7 +44,37 @@ describe("Creates Gameboard object with correct values/methods", () => {
     })
   })
 
-  describe("Places ships correctly", () => {
+  describe("Generates ships correctly", () => {
+    test("Generates correct amount of ships", () => {
+      expect(this.ships).toBe(4)
+    })
+
+    test("Generates a destroyer", ()=> {
+      expect(this.ships).toHaveProperty("destroyer")
+    })
+
+    test("Generates a submarine", ()=> {
+      expect(this.ships).toHaveProperty("submarine")
+    })
+
+    test("Generates a cruiser", ()=> {
+      expect(this.ships).toHaveProperty("cruiser")
+    })
+
+    test("Generates a battleship", ()=> {
+      expect(this.ships).toHaveProperty("battleship")
+    })
+
+    test("Generates a battleship", ()=> {
+      expect(this.ships).toHaveProperty("battleship")
+    })
+
+    test("Generates a carrier", ()=> {
+      expect(this.ships).toHaveProperty("carrier")
+    })
+  })
+
+  describe("Handles ship placement correctly", () => {
     test("Places ship on correct starting cell", () => {
       testGameboard.placeShip([4,7], 4, "horizontal"); 
       expect(testGameboard.board[4][7]).toBeInstanceOf(Ship)
