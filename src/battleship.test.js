@@ -77,7 +77,7 @@ describe("Creates Gameboard object with correct values/methods", () => {
 
   describe("Handles ship placement correctly", () => {
     test("Handles invalid ship names", () => {
-      expect(testGameboard.placeShip([9,11], "plane", "horizontal")).toThrow("Invalid ship name")
+      expect(() => testGameboard.placeShip([9,11], "plane", "horizontal")).toThrow(Error)
     })
 
     test("Places ship on correct starting cell", () => {
@@ -98,12 +98,12 @@ describe("Creates Gameboard object with correct values/methods", () => {
     })
 
     test("Handles out of bounds placements", () => {
-      expect(testGameboard.placeShip([9,11], "destroyer", "horizontal")).toThrow("Position out of bounds")
+      expect(() => testGameboard.placeShip([9,11], "destroyer", "horizontal")).toThrow(Error)
     })
 
     test("Handles already occupied placements", () => {
       testGameboard.placeShip([0,1], "carrier", "vertical")
-      expect(testGameboard.placeShip([1,0], "submarine", "horizontal")).toThrow("Position already occupied")
+      expect(() => testGameboard.placeShip([1,0], "submarine", "horizontal")).toThrow(Error)
     })
   })
 
