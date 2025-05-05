@@ -32,39 +32,77 @@ export class Gameboard{
   }
 
   #generateBoard() {
-    let board = [];
+    const board = [];
     for (let i = 0; i < BOARD_SIZE[0]; i++) {
-      board.push([]);
-    }
-
-    for (let row of board) {
-      row.length = BOARD_SIZE[1];
+      board.push(Array(BOARD_SIZE[1]).fill(null));
     }
     return board;
   }
 
-  placeShip(coordinates, shipSize, orientation) {
-    const ship = new Ship(shipSize)
-    if (orientation === "horizontal") {
-      for (let i = 0; i < ship.length; i++) {
-        this.board[coordinates[0]][coordinates[1] + i] = ship
-      }
-    } else {
-      for (let i = 0; i < ship.length; i++) {
-        this.board[coordinates[0] + i][coordinates[1]] = ship
-      }
+  placeShip(coordinates, shipName, orientation) {
+    if (!this.#isValidShip(shipName)) {
+      throw new Error("Invalid ship name")
+    }
+    
+    const ship = this.ships[shipName]
+    const cells = this.#getCells(coordinates, ship.length, orientation)
+
+    if (!this.#isInBounds(cells)) {
+      throw new Error("Position out of bounds")
+    }
+    if (!this.#isVacant(cells)) {
+      throw new Error("Position already occupied")
+    }
+    for (let [row, col] of cells) {
+      this.board[row][col] = ship
     }
   }
 
   recieveAttack(coordinates) {
+    if (!this.#isInBounds([coordinates])) {
+      throw new Error("Position out of bounds")
+    }
     let cell = this.board[coordinates[0]][coordinates[1]]
     if (cell instanceof Ship) {
       cell.hit();
-      cell = "hit"
+      this.board[coordinates[0]][coordinates[1]] = "hit"
     }
     else if (!cell) {
-      cell = "missed"
+      this.board[coordinates[0]][coordinates[1]] = "missed"
     }
-    return cell;
+    return this.board[coordinates[0]][coordinates[1]];
+  }
+
+  #isInBounds(cells) {
+    for (let [row, col] of cells) {
+      if (!(row <= 7 && row >= 0) || !(col <= 7 && col >= 0)) { return false }
+    }
+    return true;
+  }
+
+
+  #isVacant(cells) {
+    for (let [row, col] of cells) {
+      if (this.board[row][col]) { return false}
+    }
+    return true
+  }
+
+  #isValidShip(shipName) {
+    return this.ships[shipName]
+  }
+
+  #getCells(coordinates, shipSize, orientation) {
+    const cells = [];
+    if (orientation === "horizontal") {
+      for (let i = 0; i < shipSize; i++) {
+        cells.push([coordinates[0], coordinates[1] + i])
+      }
+    } else {
+      for (let i = 0; i < shipSize; i++) {
+        cells.push([coordinates[0] + i, coordinates[1]])
+      }
+    }
+    return cells;
   }
 }
