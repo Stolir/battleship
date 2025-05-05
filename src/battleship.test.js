@@ -64,7 +64,7 @@ describe("Creates Gameboard object with correct values/methods", () => {
   })
 
   describe("Correctly handles attacks", () => {
-    beforeAll(() => {
+    beforeEach(() => {
       testGameboard.placeShip([0,0], 4, "vertical")
     })
 
