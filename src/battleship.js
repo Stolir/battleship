@@ -49,4 +49,15 @@ export class Gameboard{
     }
   }
 
+  recieveAttack(coordinates) {
+    let cell = this.board[coordinates[0]][coordinates[1]]
+    if (cell instanceof Ship) {
+      cell.hit();
+      cell = "hit"
+    }
+    else if (!cell) {
+      cell = "missed"
+    }
+    return cell;
+  }
 }
