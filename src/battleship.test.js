@@ -124,4 +124,17 @@ describe("Creates Gameboard object with correct values/methods", () => {
       expect(() => testGameboard.recieveAttack([9,11])).toThrow(/bounds/)
     })
   })
+
+  describe("Correctly reports whether all ships have sunk or not", () => {
+    test("Returns false when not all ships were sunk", () => {
+      expect(testGameboard.isLost()).toBe(false)
+    })
+
+    test("Returns true when all ships have been sunk", () => {
+      for (let ship of testGameboard.ships) {
+        ship.hits = ship.length;
+      }
+      expect(testGameboard.isLost()).toBe(true)
+    })
+  })
 })
