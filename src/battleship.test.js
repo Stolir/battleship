@@ -1,4 +1,4 @@
-import { Ship, BOARD_SIZE, Gameboard, } from "./battleship";
+import { Ship, BOARD_SIZE, Gameboard, Player} from "./battleship";
 
 describe("Creates Ship object with correct values/methods", () => {
   let testShip;
@@ -136,5 +136,26 @@ describe("Creates Gameboard object with correct values/methods", () => {
       }
       expect(testGameboard.isLost()).toBe(true)
     })
+  })
+})
+
+describe("Handles player object creation", () => {
+  let testPlayer;
+  let testCPU;
+  beforeEach(() => {
+    testPlayer = new Player(player)
+    testCPU = new Player(cpu)
+  })
+
+  test("Creates player of type player", () => {
+    expect(testPlayer.type).toBe("player")
+  })
+
+  test("Creates player of type CPU", () => {
+    expect(testCPU.type).toBe("cpu")
+  })
+
+  test("Generates a gameboard for players", () => {
+    expect(testPlayer).toHaveProperty("gameboard")
   })
 })
