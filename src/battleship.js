@@ -19,16 +19,16 @@ export class Ship {
   }
 }
 
-export class Gameboard{
-  constructor(){
+export class Gameboard {
+  constructor() {
     this.board = this.#generateBoard();
     this.ships = {
-      "destroyer": new Ship(2),
-      "submarine": new Ship(3),
-      "cruiser": new Ship(3),
-      "battleship": new Ship(4),
-      "carrier": new Ship(5)
-    }
+      destroyer: new Ship(2),
+      submarine: new Ship(3),
+      cruiser: new Ship(3),
+      battleship: new Ship(4),
+      carrier: new Ship(5),
+    };
   }
 
   #generateBoard() {
@@ -41,40 +41,39 @@ export class Gameboard{
 
   placeShip(coordinates, shipName, orientation) {
     if (!this.#isValidShip(shipName)) {
-      throw new Error("Invalid ship name")
+      throw new Error("Invalid ship name");
     }
-    
-    const ship = this.ships[shipName]
-    const cells = this.#getCells(coordinates, ship.length, orientation)
+
+    const ship = this.ships[shipName];
+    const cells = this.#getCells(coordinates, ship.length, orientation);
 
     if (!this.#isInBounds(cells)) {
-      throw new Error("Position out of bounds")
+      throw new Error("Position out of bounds");
     }
     if (!this.#isVacant(cells)) {
-      throw new Error("Position already occupied")
+      throw new Error("Position already occupied");
     }
     for (let [row, col] of cells) {
-      this.board[row][col] = ship
+      this.board[row][col] = ship;
     }
   }
 
   recieveAttack(coordinates) {
     if (!this.#isInBounds([coordinates])) {
-      throw new Error("Position out of bounds")
+      throw new Error("Position out of bounds");
     }
-    let cell = this.board[coordinates[0]][coordinates[1]]
+    let cell = this.board[coordinates[0]][coordinates[1]];
     if (cell instanceof Ship) {
       cell.hit();
-      this.board[coordinates[0]][coordinates[1]] = "hit"
-    }
-    else if (!cell) {
-      this.board[coordinates[0]][coordinates[1]] = "missed"
+      this.board[coordinates[0]][coordinates[1]] = "hit";
+    } else if (!cell) {
+      this.board[coordinates[0]][coordinates[1]] = "missed";
     }
     return this.board[coordinates[0]][coordinates[1]];
   }
 
   isLost() {
-    const ships = Object.keys(this.ships)
+    const ships = Object.keys(this.ships);
     const sunkShips = [];
     for (let ship of ships) {
       if (this.ships[ship].isSunk()) {
@@ -84,46 +83,49 @@ export class Gameboard{
     if (ships.length === sunkShips.length) {
       return true;
     }
-    return false
+    return false;
   }
 
   #isInBounds(cells) {
     for (let [row, col] of cells) {
-      if (!(row <= 7 && row >= 0) || !(col <= 7 && col >= 0)) { return false }
+      if (!(row <= 7 && row >= 0) || !(col <= 7 && col >= 0)) {
+        return false;
+      }
     }
     return true;
   }
 
-
   #isVacant(cells) {
     for (let [row, col] of cells) {
-      if (this.board[row][col]) { return false}
+      if (this.board[row][col]) {
+        return false;
+      }
     }
-    return true
+    return true;
   }
 
   #isValidShip(shipName) {
-    return this.ships[shipName]
+    return this.ships[shipName];
   }
 
   #getCells(coordinates, shipSize, orientation) {
     const cells = [];
     if (orientation === "horizontal") {
       for (let i = 0; i < shipSize; i++) {
-        cells.push([coordinates[0], coordinates[1] + i])
+        cells.push([coordinates[0], coordinates[1] + i]);
       }
     } else {
       for (let i = 0; i < shipSize; i++) {
-        cells.push([coordinates[0] + i, coordinates[1]])
+        cells.push([coordinates[0] + i, coordinates[1]]);
       }
     }
     return cells;
   }
 }
 
-export class Player{ 
+export class Player {
   constructor(type) {
-    this.gameboard = new Gameboard()
+    this.gameboard = new Gameboard();
     this.type = type;
   }
 }
