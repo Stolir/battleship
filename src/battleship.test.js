@@ -131,8 +131,8 @@ describe("Creates Gameboard object with correct values/methods", () => {
     })
 
     test("Returns true when all ships have been sunk", () => {
-      for (let ship of testGameboard.ships) {
-        ship.hits = ship.length;
+      for (let ship of Object.keys(testGameboard.ships)) {
+        testGameboard.ships[ship].hits = ship.length;
       }
       expect(testGameboard.isLost()).toBe(true)
     })
