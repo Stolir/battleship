@@ -73,6 +73,20 @@ export class Gameboard{
     return this.board[coordinates[0]][coordinates[1]];
   }
 
+  isLost() {
+    const ships = Object.keys(this.ships)
+    const sunkShips = [];
+    for (let ship of ships) {
+      if (this.ships[ship].isSunk()) {
+        sunkShips.push(ship);
+      }
+    }
+    if (ships.length === sunkShips.length) {
+      return true;
+    }
+    return false
+  }
+
   #isInBounds(cells) {
     for (let [row, col] of cells) {
       if (!(row <= 7 && row >= 0) || !(col <= 7 && col >= 0)) { return false }
