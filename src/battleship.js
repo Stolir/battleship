@@ -120,3 +120,10 @@ export class Gameboard{
     return cells;
   }
 }
+
+export class Player{ 
+  constructor(type) {
+    this.gameboard = new Gameboard()
+    this.type = type;
+  }
+}
