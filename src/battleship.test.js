@@ -143,8 +143,8 @@ describe("Handles player object creation", () => {
   let testPlayer;
   let testCPU;
   beforeEach(() => {
-    testPlayer = new Player(player)
-    testCPU = new Player(cpu)
+    testPlayer = new Player("player")
+    testCPU = new Player("cpu")
   })
 
   test("Creates player of type player", () => {
