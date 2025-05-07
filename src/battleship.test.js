@@ -2,7 +2,7 @@ import { Ship, BOARD_SIZE, Gameboard, Player } from "./battleship";
 
 describe("Creates Ship object with correct values/methods", () => {
   let testShip;
-  beforeEach(() => (testShip = new Ship(2)));
+  beforeEach(() => (testShip = new Ship(2, [3, 4], "vertical")));
 
   test("New ship has correct length", () => {
     expect(testShip.length).toBe(2);
@@ -11,6 +11,21 @@ describe("Creates Ship object with correct values/methods", () => {
   test("New ship has correct hit amount", () => {
     expect(testShip.hits).toBe(0);
   });
+
+  describe("New ship has correct location values", () => {
+    test("Has correct starting point", () => {
+      expect(testShip.location.start).toEqual([3, 4])
+    })
+
+    test("Has correct orientation", () => {
+      expect(testShip.location.orientation).toBe("vertical")
+    })
+  })
+
+  test("Handles ship creation when no start or orientation are passed", ()=> {
+    expect(new Ship(2).location.start).toBe(null)
+    expect(new Ship(2).location.orientation).toBe(null)
+  })
 
   test("Returns false when not sunk", () => {
     expect(testShip.isSunk()).toBe(false);
@@ -111,6 +126,12 @@ describe("Creates Gameboard object with correct values/methods", () => {
         testGameboard.placeShip([1, 0], "submarine", "horizontal"),
       ).toThrow(/occupied/);
     });
+
+    test("Records correct ship location in the 'ships' object", ()=> {
+      testGameboard.placeShip([0, 1], "carrier", "vertical");
+      expect(testGameboard.ships.carrier.location.start).toEqual([0, 1])
+      expect(testGameboard.ships.carrier.location.orientation).toBe("vertical")
+    })
   });
 
   describe("Correctly handles attacks", () => {
