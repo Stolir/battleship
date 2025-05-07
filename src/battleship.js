@@ -1,9 +1,23 @@
 export const BOARD_SIZE = [8, 8];
 
 export class Ship {
-  constructor(length) {
+  constructor(length, start=null, orientation=null) {
     this.length = length;
     this.hits = 0;
+    this.location = 
+    {
+      start: start,
+      orientation: orientation
+    };
+  }
+
+  setLocation(start, orientation) {
+    if(start && orientation) {
+      const newLocation = {};
+      newLocation.start = start;
+      newLocation.orientation = orientation;
+      this.location = newLocation
+    }
   }
 
   isSunk() {
@@ -34,7 +48,7 @@ export class Gameboard {
   #generateBoard() {
     const board = [];
     for (let i = 0; i < BOARD_SIZE[0]; i++) {
-      board.push(Array(BOARD_SIZE[1]).fill(null));
+      board.push(Array(BOARD_SIZE[1]).fill(""));
     }
     return board;
   }
@@ -56,6 +70,7 @@ export class Gameboard {
     for (let [row, col] of cells) {
       this.board[row][col] = ship;
     }
+    ship.setLocation(coordinates, orientation)
   }
 
   recieveAttack(coordinates) {
