@@ -109,7 +109,16 @@ header div:hover {
   ;
 }
 
+.game-display .player-container.opponent {
+  grid-template: 1fr / 4fr 1fr;
+  grid-template-areas: 
+  "board fleet"
+  "controls controls"
+  ;
+}
+
 .player-container .board {
+  grid-area: board;
   padding: 1rem 5rem;
   display: grid;
   grid-template: repeat(9, 1fr) / repeat(9, 1fr);
@@ -150,10 +159,29 @@ header div:hover {
   padding: 1px;
 }
 
+.board .ship {
+  width: 100%;
+  height: 100%;
+  border: 1px solid green;
+  display: grid;
+}
+
 .game-area button {
   background-color: white;
   padding: 0;
 }
+
+.game-area .ship button {
+  background-color: rgb(241, 255, 241);
+}
+
+.game-area .ship .hit {
+  background-color: rgb(238, 200, 200);
+}
+
+.game-area .sunk {
+  border: 1px solid rgb(255, 14, 14);
+} 
 
 .main-container footer {
   grid-area: footer;
