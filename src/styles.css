@@ -89,6 +89,10 @@ header .links {
   color: rgb(90, 90, 90);
 }
 
+a {
+  color: rgb(104, 104, 104);
+}
+
 header div:hover {
   cursor: pointer;
 }
