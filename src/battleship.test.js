@@ -150,6 +150,10 @@ describe("Creates Gameboard object with correct values/methods", () => {
     test("Handles out of bounds attacks", () => {
       expect(() => testGameboard.recieveAttack([9, 11])).toThrow(/bounds/);
     });
+
+    test("Handles coordinates of type string", () => {
+      expect(testGameboard.recieveAttack(["0", "0"])).toBe("hit");
+    })
   });
 
   describe("Correctly reports whether all ships have sunk or not", () => {
