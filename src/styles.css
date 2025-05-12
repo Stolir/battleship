@@ -166,21 +166,41 @@ header div:hover {
   display: grid;
 }
 
-.game-area button {
+.board .game-area button {
   background-color: white;
   padding: 0;
+}
+
+.game-area button:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .game-area .ship button {
   background-color: rgb(241, 255, 241);
 }
 
-.game-area .ship .hit {
+.board .game-area button.hit {
   background-color: rgb(238, 200, 200);
+}
+
+.game-area .ship button:hover {
+  cursor: pointer;
+  background-color: rgb(241, 255, 241, 0.8);
+}
+
+.game-area button.disabled {
+  cursor: not-allowed;
+  background-color: rgba(255, 255, 255, 0.801);
 }
 
 .game-area .sunk {
   border: 1px solid rgb(255, 14, 14);
+} 
+
+.game-area .ship.sunk button {
+  cursor: not-allowed;
+  background-color: rgb(238, 200, 200);
 } 
 
 .main-container footer {
