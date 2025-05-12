@@ -1,13 +1,10 @@
 import { BOARD_SIZE, Player, Ship } from "./battleship";
 
 const playerContainers = document.querySelectorAll(".game-display .playercontainer")
-const playerBoardElm = document.querySelector(".game-display .player-container .board .game-area")
-const opponentBoardElm = document.querySelector(".game-display .player-container.opponent .board game-area")
 
-export function loadPlayerBoard(player){
+export function loadPlayerBoard(player, boardElement){
   const shipWrappers = makeShips(player); 
   const playerBoard = player.gameboard.board;
-  console.log(playerBoard)
   for (let i = 0; i < BOARD_SIZE[0]; i++) {
     for (let j = 0; j < BOARD_SIZE[1]; j++) {
       const cell = createElement("button");
@@ -17,12 +14,23 @@ export function loadPlayerBoard(player){
         const shipName = findKey(player.gameboard.ships, playerBoard[i][j])
         shipWrappers[shipName].appendChild(cell);
       } else {
-        playerBoardElm.appendChild(cell);
+        boardElement.appendChild(cell);
       }
     }
   }
   for (let ship in shipWrappers) {
-    playerBoardElm.appendChild(shipWrappers[ship])
+    boardElement.appendChild(shipWrappers[ship])
+  }
+}
+
+export function loadOpponentBoard(boardElement){
+  for (let i = 0; i < BOARD_SIZE[0]; i++) {
+    for (let j = 0; j < BOARD_SIZE[1]; j++) {
+      const cell = createElement("button");
+      cell.dataset.row = i;
+      cell.dataset.col = j;
+      boardElement.appendChild(cell);
+    }
   }
 }
 
@@ -40,7 +48,7 @@ function createElement(elm, classNames=undefined, textContent="") {
 }
 
 // make ship wrappers to use in loadBoard()
-function makeShips(player) {
+export function makeShips(player) {
   if (!player instanceof Player) {
     throw new TypeError("Object of type Player is required")
   }
@@ -65,6 +73,6 @@ function makeShips(player) {
   return shipElelemts;
 }
 
-function findKey(object, value) {
+export function findKey(object, value) {
   return Object.keys(object).find(key => object[key] === value); 
 }
