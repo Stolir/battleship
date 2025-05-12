@@ -1,9 +1,14 @@
-import { BOARD_SIZE, Player, Ship } from "./battleship";
+import { BOARD_SIZE, Gameboard, Player, Ship } from "./battleship";
 
 const playerContainers = document.querySelectorAll(".game-display .playercontainer")
 
+let playerShipWrappers;
+let opponentShipWrappers;
+
 export function loadPlayerBoard(player, boardElement){
-  const shipWrappers = makeShips(player); 
+  if (!playerShipWrappers) {
+    playerShipWrappers = makeShips(player); 
+  }
   const playerBoard = player.gameboard.board;
   for (let i = 0; i < BOARD_SIZE[0]; i++) {
     for (let j = 0; j < BOARD_SIZE[1]; j++) {
@@ -12,18 +17,21 @@ export function loadPlayerBoard(player, boardElement){
       cell.dataset.col = j;
       if (playerBoard[i][j] && playerBoard[i][j] instanceof Ship) {
         const shipName = findKey(player.gameboard.ships, playerBoard[i][j])
-        shipWrappers[shipName].appendChild(cell);
+        playerShipWrappers[shipName].appendChild(cell);
       } else {
         boardElement.appendChild(cell);
       }
     }
   }
-  for (let ship in shipWrappers) {
-    boardElement.appendChild(shipWrappers[ship])
+  for (let ship in playerShipWrappers) {
+    boardElement.appendChild(playerShipWrappers[ship])
   }
 }
 
-export function loadOpponentBoard(boardElement){
+export function loadOpponentBoard(player, boardElement) {
+  if (!opponentShipWrappers) {
+    opponentShipWrappers = makeShips(player)
+  }
   for (let i = 0; i < BOARD_SIZE[0]; i++) {
     for (let j = 0; j < BOARD_SIZE[1]; j++) {
       const cell = createElement("button");
@@ -32,6 +40,31 @@ export function loadOpponentBoard(boardElement){
       boardElement.appendChild(cell);
     }
   }
+}
+
+export function renderAttack(cell, board, boardElement){
+    const coordinates = [cell.dataset.row, cell.dataset.col]
+    const attacked = (board.recieveAttack(coordinates))
+    // disable button and add disabled class for styling
+    cell.disabled = true;
+    cell.classList.add("disabled")
+    // check if target was a ship to render a hit
+    if (attacked instanceof Ship) {
+      cell.classList.add("hit")
+      // check if the ship hit is now sunk to render ship borders
+      if (attacked.isSunk()) {
+        const cells = Gameboard.getCells(attacked.location.start, attacked.length, attacked.location.orientation)
+        const shipName = findKey(board.ships, attacked)
+        for (let [row, col] of cells) {
+          const shipCell = boardElement.querySelector(`button.disabled.hit[data-row="${row}"][data-col="${col}"]`)
+          opponentShipWrappers[shipName].appendChild(shipCell)
+        }
+        opponentShipWrappers[shipName].classList.add("sunk")
+        boardElement.appendChild(opponentShipWrappers[shipName])
+      }
+    } else {
+      cell.classList.add("miss")
+    }
 }
 
 function createElement(elm, classNames=undefined, textContent="") {
