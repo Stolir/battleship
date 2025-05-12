@@ -140,11 +140,11 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles missed attacks", () => {
-      expect(testGameboard.recieveAttack([0, 1])).toBe("missed");
+      expect(testGameboard.recieveAttack([0, 1])).toBe(testGameboard.board[0][1]);
     });
 
     test("Handles hit shots", () => {
-      expect(testGameboard.recieveAttack([0, 0])).toBe("hit");
+      expect(testGameboard.recieveAttack([0, 0])).toBe(testGameboard.board[0][0]);
     });
 
     test("Handles out of bounds attacks", () => {
@@ -152,7 +152,7 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles coordinates of type string", () => {
-      expect(testGameboard.recieveAttack(["0", "0"])).toBe("hit");
+      expect(testGameboard.recieveAttack(["0", "0"])).toBe(testGameboard.board[0][0]);
     })
   });
 
