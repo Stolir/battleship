@@ -59,7 +59,7 @@ export class Gameboard {
     }
 
     const ship = this.ships[shipName];
-    const cells = this.#getCells(coordinates, ship.length, orientation);
+    const cells = Gameboard.getCells(coordinates, ship.length, orientation);
 
     if (!this.#isInBounds(cells)) {
       throw new Error("Position out of bounds");
@@ -80,7 +80,6 @@ export class Gameboard {
     let cell = this.board[coordinates[0]][coordinates[1]];
     if (cell instanceof Ship) {
       cell.hit();
-      this.board[coordinates[0]][coordinates[1]] = "hit";
     } else if (!cell) {
       this.board[coordinates[0]][coordinates[1]] = "missed";
     }
@@ -123,7 +122,7 @@ export class Gameboard {
     return this.ships[shipName];
   }
 
-  #getCells(coordinates, shipSize, orientation) {
+  static getCells(coordinates, shipSize, orientation) {
     const cells = [];
     if (orientation === "horizontal") {
       for (let i = 0; i < shipSize; i++) {
