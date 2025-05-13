@@ -55,17 +55,17 @@ export class Gameboard {
 
   placeShip(coordinates, shipName, orientation) {
     if (!this.#isValidShip(shipName)) {
-      throw new Error("Invalid ship name");
+      return ("Invalid ship name");
     }
 
     const ship = this.ships[shipName];
     const cells = Gameboard.getCells(coordinates, ship.length, orientation);
 
     if (!this.#isInBounds(cells)) {
-      throw new Error("Position out of bounds");
+      return ("Position out of bounds");
     }
     if (!this.#isVacant(cells)) {
-      throw new Error("Position already occupied");
+      return ("Position already occupied");
     }
     for (let [row, col] of cells) {
       this.board[row][col] = ship;
@@ -75,7 +75,7 @@ export class Gameboard {
 
   recieveAttack(coordinates) {
     if (!this.#isInBounds([coordinates])) {
-      throw new Error("Position out of bounds");
+      return ("Position out of bounds");
     }
     let cell = this.board[coordinates[0]][coordinates[1]];
     if (cell instanceof Ship) {
