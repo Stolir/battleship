@@ -44,12 +44,15 @@ export function renderAttack(cell, board, boardElement, shipWrappers){
       cell.classList.add("hit")
       // check whether targeted ship is sunk or not and render borders if true
       if (attacked.isSunk()) {
-        const cells = Gameboard.getCells(attacked.location.start, attacked.length, attacked.location.orientation)
         const shipName = findKey(board.ships, attacked)
-        for (let [row, col] of cells) {
+        // check if cell is already in a ship wrapper (for attacks on player board)
+        if (!cell.parentElement.classList.contains("ship")) {
+          const cells = Gameboard.getCells(attacked.location.start, attacked.length, attacked.location.orientation)
+          for (let [row, col] of cells) {
           const shipCell = boardElement.querySelector(`button.disabled.hit[data-row="${row}"][data-col="${col}"]`)
           shipWrappers[shipName].appendChild(shipCell)
         }
+      }
         shipWrappers[shipName].classList.add("sunk")
         boardElement.appendChild(shipWrappers[shipName])
       }
