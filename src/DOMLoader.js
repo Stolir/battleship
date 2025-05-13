@@ -1,7 +1,5 @@
 import { BOARD_SIZE, Gameboard, Player, Ship } from "./battleship";
 
-const playerContainers = document.querySelectorAll(".game-display .playercontainer")
-
 export function loadPlayerBoard(player, boardElement, shipWrappers){
   const playerBoard = player.gameboard.board;
   for (let i = 0; i < BOARD_SIZE[0]; i++) {
@@ -33,7 +31,7 @@ export function loadOpponentBoard(boardElement) {
   }
 }
 
-export function renderAttack(cell, board, boardElement, shipWrappers){
+export function renderAttack(cell, board, boardElement, shipWrappers, reports){
     const coordinates = [cell.dataset.row, cell.dataset.col]
     const attacked = (board.recieveAttack(coordinates))
     // disable button and add disabled class for styling
@@ -42,9 +40,11 @@ export function renderAttack(cell, board, boardElement, shipWrappers){
     // check if target was a ship to render a hit
     if (attacked instanceof Ship) {
       cell.classList.add("hit")
+      const shipName = findKey(board.ships, attacked)
+      reportAttack(reports,`Hit enemy ${shipName} at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
       // check whether targeted ship is sunk or not and render borders if true
       if (attacked.isSunk()) {
-        const shipName = findKey(board.ships, attacked)
+        
         // check if cell is already in a ship wrapper (for attacks on player board)
         if (!cell.parentElement.classList.contains("ship")) {
           const cells = Gameboard.getCells(attacked.location.start, attacked.length, attacked.location.orientation)
@@ -55,10 +55,18 @@ export function renderAttack(cell, board, boardElement, shipWrappers){
       }
         shipWrappers[shipName].classList.add("sunk")
         boardElement.appendChild(shipWrappers[shipName])
+        reportAttack(reports, `Sunk enemy ${shipName} at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
       }
     } else {
       cell.classList.add("miss")
+      reportAttack(reports, `Missed an attack at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
     }
+}
+
+function reportAttack(reports, result) {
+  const message = createElement("div", "report-message", result)
+  reports.appendChild(message)
+  reports.scrollTop = reports.scrollHeight;
 }
 
 function createElement(elm, classNames=undefined, textContent="") {
@@ -102,4 +110,9 @@ export function makeShips(player) {
 
 export function findKey(object, value) {
   return Object.keys(object).find(key => object[key] === value); 
+}
+
+function numberToLetter(number) {
+  // Start from A since numbers will be 0 indexed
+  return String.fromCharCode(65 + +number)
 }

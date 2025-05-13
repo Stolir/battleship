@@ -77,16 +77,21 @@ h1, h2, h3, h4, h5, h6 {
   gap: 1rem;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 #logo {
   font-weight: bold;
   margin: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 header .links {
   font-size: 0.8em;
   color: rgb(90, 90, 90);
+  margin-left: auto;
 }
 
 a {
@@ -106,24 +111,24 @@ header div:hover {
 
 .game-display .player-container {
   display: grid;
-  grid-template: 1fr / 1fr 4fr;
+  grid-template: 1fr / 2fr 6fr;
   grid-template-areas: 
-  "fleet board"
+  "reports board"
   "controls controls"
   ;
 }
 
 .game-display .player-container.opponent {
-  grid-template: 1fr / 4fr 1fr;
+  grid-template: 1fr / 6fr 2fr;
   grid-template-areas: 
-  "board fleet"
+  "board reports"
   "controls controls"
   ;
 }
 
 .player-container .board {
   grid-area: board;
-  padding: 1rem 5rem;
+  padding: 1rem 4rem;
   display: grid;
   grid-template: repeat(9, 1fr) / repeat(9, 1fr);
   background-clip: content-box;
@@ -213,4 +218,23 @@ header div:hover {
   justify-self: center;
   align-self: center;
   padding: 0 1.5rem;
+}
+
+.disable-board {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.reports { 
+  grid-area: reports;
+  display: flex;
+  flex-direction: column;
+  margin: 5rem 0rem 5rem 3rem;
+  overflow-y: hidden; /* or 'hidden' if you don't want scrolling */
+  max-height: 400px;
+}
+
+.opponent .reports
+{ 
+  margin: 5rem 2rem 5rem 0rem;
 }

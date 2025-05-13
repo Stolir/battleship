@@ -22,8 +22,14 @@ opponentBoard.placeShip([6,5], "cruiser", "horizontal");
 const playerBoardElm = document.querySelector(".game-display .player-container .board .game-area")
 const opponentBoardElm = document.querySelector(".game-display .player-container.opponent .board .game-area")
 
+const playerReports = document.querySelector(".player-container .reports")
+const opponentReports = document.querySelector(".player-container.opponent .reports")
+
 const playerShipWrappers = makeShips(player1)
 const opponentShipWrappers = makeShips(player2)
+
+// Manage turns
+playerBoardElm.classList.toggle("disable-board")
 
 window.addEventListener("load", () => {
   loadPlayerBoard(player1, playerBoardElm, playerShipWrappers)
@@ -32,10 +38,14 @@ window.addEventListener("load", () => {
 
 opponentBoardElm.addEventListener("mouseup", (event) => {
     const cell = event.target.closest("button")
-    renderAttack(cell, opponentBoard, opponentBoardElm, opponentShipWrappers)
+    renderAttack(cell, opponentBoard, opponentBoardElm, opponentShipWrappers, playerReports)
+    opponentBoardElm.classList.toggle("disable-board")
+    playerBoardElm.classList.toggle("disable-board")
 })
 
 playerBoardElm.addEventListener("mouseup", (event) => {
     const cell = event.target.closest("button")
-    renderAttack(cell, playerBoard, playerBoardElm, playerShipWrappers)
+    renderAttack(cell, playerBoard, playerBoardElm, playerShipWrappers, opponentReports)
+    opponentBoardElm.classList.toggle("disable-board")
+    playerBoardElm.classList.toggle("disable-board")
 })
