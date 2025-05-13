@@ -184,7 +184,7 @@ header div:hover {
   background-color: rgb(241, 255, 241);
 }
 
-.board .game-area button.hit {
+.board .game-area button.hit[disabled] {
   background-color: rgb(238, 200, 200);
 }
 
@@ -193,7 +193,7 @@ header div:hover {
   background-color: rgb(241, 255, 241, 0.8);
 }
 
-.game-area button.disabled {
+.game-area button.disabled[disabled] {
   cursor: not-allowed;
   background-color: rgba(255, 255, 255, 0.801);
 }
