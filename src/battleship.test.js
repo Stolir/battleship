@@ -92,9 +92,7 @@ describe("Creates Gameboard object with correct values/methods", () => {
 
   describe("Handles ship placement correctly", () => {
     test("Handles invalid ship names", () => {
-      expect(() =>
-        testGameboard.placeShip([9, 11], "plane", "horizontal"),
-      ).toThrow(/name/);
+      expect(testGameboard.placeShip([9, 11], "plane", "horizontal")).toMatch(/name/);
     });
 
     test("Places ship on correct starting cell", () => {
@@ -115,16 +113,12 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles out of bounds placements", () => {
-      expect(() =>
-        testGameboard.placeShip([9, 11], "destroyer", "horizontal"),
-      ).toThrow(/bounds/);
+      expect(testGameboard.placeShip([9, 11], "destroyer", "horizontal")).toMatch(/bounds/);
     });
 
     test("Handles already occupied placements", () => {
       testGameboard.placeShip([0, 1], "carrier", "vertical");
-      expect(() =>
-        testGameboard.placeShip([1, 0], "submarine", "horizontal"),
-      ).toThrow(/occupied/);
+      expect(testGameboard.placeShip([1, 0], "submarine", "horizontal")).toMatch(/occupied/);
     });
 
     test("Records correct ship location in the 'ships' object", ()=> {
@@ -148,7 +142,7 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles out of bounds attacks", () => {
-      expect(() => testGameboard.recieveAttack([9, 11])).toThrow(/bounds/);
+      expect(testGameboard.recieveAttack([9, 11])).toMatch(/bounds/);
     });
 
     test("Handles coordinates of type string", () => {
