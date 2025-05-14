@@ -1,5 +1,9 @@
 import { BOARD_SIZE, Gameboard, Player, Ship } from "./battleship";
 
+const gameOverBox = document.querySelector("#game-over")
+const gameOverMsgBox = gameOverBox.querySelector(".message")
+const playerContainers = document.querySelectorAll(".player-container") 
+
 export function loadPlayerBoard(player, boardElement, shipWrappers){
   const playerBoard = player.gameboard.board;
   for (let i = 0; i < BOARD_SIZE[0]; i++) {
@@ -44,7 +48,18 @@ export function renderAttack(cell, board, boardElement, shipWrappers, reports){
       reportAttack(reports,`Hit enemy ${shipName} at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
       // check whether targeted ship is sunk or not and render borders if true
       if (attacked.isSunk()) {
-        
+        handleSunkShip(cell, boardElement, shipWrappers, reports, attacked, shipName)
+        if(board.isLost()) {
+          endGame()
+        }
+      }
+    } else {
+      cell.classList.add("miss")
+      reportAttack(reports, `Missed an attack at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
+    }
+}
+
+function handleSunkShip(cell, boardElement, shipWrappers, reports, attacked, shipName){
         // check if cell is already in a ship wrapper (for attacks on player board)
         if (!cell.parentElement.classList.contains("ship")) {
           const cells = Gameboard.getCells(attacked.location.start, attacked.length, attacked.location.orientation)
@@ -55,16 +70,19 @@ export function renderAttack(cell, board, boardElement, shipWrappers, reports){
       }
         shipWrappers[shipName].classList.add("sunk")
         boardElement.appendChild(shipWrappers[shipName])
-        reportAttack(reports, `Sunk enemy ${shipName} at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
-      }
-    } else {
-      cell.classList.add("miss")
-      reportAttack(reports, `Missed an attack at ${cell.dataset.row}${numberToLetter(cell.dataset.col)}`)
-    }
+        reportAttack(reports, `Sunk enemy ${shipName}!`)
+}
+
+function endGame(){
+  for (let container of playerContainers) {
+    container.classList.add("disable-board")
+  }
+  // gameOverMsgBox.textContent = message;
+  gameOverBox.classList.remove("hidden")
 }
 
 function reportAttack(reports, result) {
-  const message = createElement("div", "report-message", result)
+  const message = createElement("div", ["report-message"], result)
   reports.appendChild(message)
   reports.scrollTop = reports.scrollHeight;
 }
