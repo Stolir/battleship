@@ -57,16 +57,15 @@ export class Gameboard {
     if (!this.#isValidShip(shipName)) {
       return ("Invalid ship name");
     }
-
     const ship = this.ships[shipName];
     const cells = Gameboard.getCells(coordinates, ship.length, orientation);
-
     if (!this.#isInBounds(cells)) {
       return ("Position out of bounds");
     }
     if (!this.#isVacant(cells)) {
       return ("Position already occupied");
     }
+    
     for (let [row, col] of cells) {
       this.board[row][col] = ship;
     }
@@ -98,6 +97,25 @@ export class Gameboard {
       return true;
     }
     return false;
+  }
+
+  getRandomPosition(shipSize) {
+    const coordinates = [Math.floor(Math.random() * BOARD_SIZE[0]), Math.floor(Math.random() * BOARD_SIZE[1])]
+    const orientations = ["horizontal", "vertical"];
+    // set orientation to horizontal/vertical based on number
+    const shuffledOrientations = orientations.sort(() => Math.random() - 0.5)
+    for (let orientation of shuffledOrientations) {
+      if (this.#isLegal(coordinates, shipSize, orientation)) {
+        return { coordinates, orientation}
+      }
+    }
+    return this.getRandomPosition(shipSize)
+  }
+
+  #isLegal(coordinates, shipSize, orientation) {
+    const cells = Gameboard.getCells(coordinates, shipSize, orientation);
+    if (!this.#isInBounds(cells) || !this.#isVacant(cells)) { return false}
+    return true
   }
 
   #isInBounds(cells) {
@@ -141,6 +159,14 @@ export class Player {
   constructor() {
     this.gameboard = new Gameboard();
     this.type = "player";
+  }
+
+  randomizeShips() {
+    const ships = this.gameboard.ships;
+    for (let ship in ships) {
+      const position = this.gameboard.getRandomPosition(ships[ship].length)
+      this.gameboard.placeShip(position.coordinates, ship, position.orientation)
+    }
   }
 }
 
