@@ -185,10 +185,19 @@ describe("Handles player object creation", () => {
   });
 
   test("Generates a gameboard for CPUs", () => {
-  expect(testCPU).toHaveProperty("gameboard");
+    expect(testCPU).toHaveProperty("gameboard");
   });
+
+  test("Handles ship randomization", () => {
+    testPlayer.randomizeShips()
+    const ships = testPlayer.gameboard.ships
+    for (let ship in ships) {
+      expect(ships[ship].location.start && ships[ship].location.orientation).toBeTruthy()
+    }
+  })
+
+  describe("Handles CPU attack logic", () => {
+
+  })
+
 });
-
-describe("Handles CPU attack logic", () => {
-
-})
