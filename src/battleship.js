@@ -138,8 +138,15 @@ export class Gameboard {
 }
 
 export class Player {
-  constructor(type) {
+  constructor() {
     this.gameboard = new Gameboard();
-    this.type = type;
+    this.type = "player";
+  }
+}
+
+export class cpuPlayer extends Player {
+  constructor() {
+    super();
+    this.type = "cpu"
   }
 }
