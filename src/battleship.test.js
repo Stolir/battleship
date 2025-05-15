@@ -14,18 +14,18 @@ describe("Creates Ship object with correct values/methods", () => {
 
   describe("New ship has correct location values", () => {
     test("Has correct starting point", () => {
-      expect(testShip.location.start).toEqual([3, 4])
-    })
+      expect(testShip.location.start).toEqual([3, 4]);
+    });
 
     test("Has correct orientation", () => {
-      expect(testShip.location.orientation).toBe("vertical")
-    })
-  })
+      expect(testShip.location.orientation).toBe("vertical");
+    });
+  });
 
-  test("Handles ship creation when no start or orientation are passed", ()=> {
-    expect(new Ship(2).location.start).toBe(null)
-    expect(new Ship(2).location.orientation).toBe(null)
-  })
+  test("Handles ship creation when no start or orientation are passed", () => {
+    expect(new Ship(2).location.start).toBe(null);
+    expect(new Ship(2).location.orientation).toBe(null);
+  });
 
   test("Returns false when not sunk", () => {
     expect(testShip.isSunk()).toBe(false);
@@ -92,7 +92,9 @@ describe("Creates Gameboard object with correct values/methods", () => {
 
   describe("Handles ship placement correctly", () => {
     test("Handles invalid ship names", () => {
-      expect(testGameboard.placeShip([9, 11], "plane", "horizontal")).toMatch(/name/);
+      expect(testGameboard.placeShip([9, 11], "plane", "horizontal")).toMatch(
+        /name/,
+      );
     });
 
     test("Places ship on correct starting cell", () => {
@@ -113,19 +115,23 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles out of bounds placements", () => {
-      expect(testGameboard.placeShip([9, 11], "destroyer", "horizontal")).toMatch(/bounds/);
+      expect(
+        testGameboard.placeShip([9, 11], "destroyer", "horizontal"),
+      ).toMatch(/bounds/);
     });
 
     test("Handles already occupied placements", () => {
       testGameboard.placeShip([0, 1], "carrier", "vertical");
-      expect(testGameboard.placeShip([1, 0], "submarine", "horizontal")).toMatch(/occupied/);
+      expect(
+        testGameboard.placeShip([1, 0], "submarine", "horizontal"),
+      ).toMatch(/occupied/);
     });
 
-    test("Records correct ship location in the 'ships' object", ()=> {
+    test("Records correct ship location in the 'ships' object", () => {
       testGameboard.placeShip([0, 1], "carrier", "vertical");
-      expect(testGameboard.ships.carrier.location.start).toEqual([0, 1])
-      expect(testGameboard.ships.carrier.location.orientation).toBe("vertical")
-    })
+      expect(testGameboard.ships.carrier.location.start).toEqual([0, 1]);
+      expect(testGameboard.ships.carrier.location.orientation).toBe("vertical");
+    });
   });
 
   describe("Correctly handles attacks", () => {
@@ -134,11 +140,15 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles missed attacks", () => {
-      expect(testGameboard.recieveAttack([0, 1])).toBe(testGameboard.board[0][1]);
+      expect(testGameboard.recieveAttack([0, 1])).toBe(
+        testGameboard.board[0][1],
+      );
     });
 
     test("Handles hit shots", () => {
-      expect(testGameboard.recieveAttack([0, 0])).toBe(testGameboard.board[0][0]);
+      expect(testGameboard.recieveAttack([0, 0])).toBe(
+        testGameboard.board[0][0],
+      );
     });
 
     test("Handles out of bounds attacks", () => {
@@ -146,8 +156,10 @@ describe("Creates Gameboard object with correct values/methods", () => {
     });
 
     test("Handles coordinates of type string", () => {
-      expect(testGameboard.recieveAttack(["0", "0"])).toBe(testGameboard.board[0][0]);
-    })
+      expect(testGameboard.recieveAttack(["0", "0"])).toBe(
+        testGameboard.board[0][0],
+      );
+    });
   });
 
   describe("Correctly reports whether all ships have sunk or not", () => {
@@ -189,30 +201,71 @@ describe("Handles player object creation", () => {
   });
 
   test("Handles ship randomization", () => {
-    testPlayer.randomizeShips()
-    const ships = testPlayer.gameboard.ships
+    testPlayer.randomizeShips();
+    const ships = testPlayer.gameboard.ships;
     for (let ship in ships) {
-      expect(ships[ship].location.start && ships[ship].location.orientation).toBeTruthy()
+      expect(
+        ships[ship].location.start && ships[ship].location.orientation,
+      ).toBeTruthy();
     }
-  })
+  });
 
   describe("Handles CPU attack logic", () => {
-    let coordinates;
-    beforeEach(() => {
-      coordinates = testCPU.attackRandomCell();
-    })
+    describe("Handles random attacking", () => {
+      let coordinates;
+      beforeEach(() => {
+        coordinates = testCPU.attackRandomCell();
+      });
 
-    test("Returns array", () => {
-      expect(Array.isArray(coordinates)).toBe(true);
-    })
-    
-    test("Array consists of numbers", () => {
-      expect(coordinates.every((item) => Number.isFinite(+item))).toBe(true)
-    })
+      test("Returns array", () => {
+        expect(Array.isArray(coordinates)).toBe(true);
+      });
 
-    test("Array is of size 2", () => {
-      expect(coordinates.length).toBe(2)
-    })
-  })
+      test("Array consists of numbers", () => {
+        expect(coordinates.every((item) => Number.isFinite(+item))).toBe(true);
+      });
 
+      test("Array is of size 2", () => {
+        expect(coordinates.length).toBe(2);
+      });
+    });
+
+    describe("Handles adjacent cell attacking", () => {
+      const coordinates = [3, 4];
+      let adjacentCoordinates;
+      beforeEach(() => {
+        adjacentCoordinates = testCPU.attackAdjacentCells(coordinates);
+      });
+
+      test("Returns array", () => {
+        expect(Array.isArray(adjacentCoordinates)).toBe(true);
+      });
+
+      test("Sub-arrays consist of numbers", () => {
+        expect(
+          adjacentCoordinates.every((coord) =>
+            coord.every((item) => Number.isFinite(item)),
+          ),
+        ).toBe(true);
+      });
+
+      test("Array is of size 4", () => {
+        expect(adjacentCoordinates.length).toBe(2);
+      });
+
+      test("Returns correct horizontal cells", () => {
+        expect(adjacentCoordinates).toContainEqual([3, 5]);
+        expect(adjacentCoordinates).toContainEqual([3, 3]);
+      });
+
+      test("Returns correct vertical cells", () => {
+        adjacentCoordinates = testCPU.attackAdjacentCells(
+          coordinates,
+          "vertical",
+        );
+        expect(adjacentCoordinates).toContainEqual([2, 4]);
+        expect(adjacentCoordinates).toContainEqual([4, 4]);
+      });
+    });
+  });
 });
