@@ -1,23 +1,22 @@
 import "./styles.css"
-import { Player, Ship } from "./battleship"
-import { loadOpponentBoard, loadPlayerBoard, makeShips, renderAttack,  } from "./DOMLoader"
+import { Player, cpuPlayer, Ship, } from "./battleship"
+import { loadOpponentBoard, loadPlayerBoard, makeShips, renderAttack, player1, player2, resetGame } from "./DOMLoader"
+
+// needed to make programatic clicks bubble
+const mouseupEvent = new MouseEvent('mouseup', {
+  bubbles: true, // Ensures event propagates up
+  cancelable: true,
+  view: window
+});
 
 // make players temporarily for testing
-const player1 = new Player("player")
-const playerBoard = player1.gameboard;
-playerBoard.placeShip([0,7], "destroyer", "vertical");
-playerBoard.placeShip([1,1], "submarine", "horizontal");
-playerBoard.placeShip([3,1], "carrier", "vertical");
-playerBoard.placeShip([3,4], "battleship", "horizontal");
-playerBoard.placeShip([6,5], "cruiser", "horizontal");
+  const player = new Player()
+  const playerBoard = player.gameboard;
+  player.randomizeShips()
 
-const player2 = new Player("cpu")
-const opponentBoard = player2.gameboard;
-opponentBoard.placeShip([0,7], "destroyer", "vertical");
-opponentBoard.placeShip([1,1], "submarine", "horizontal");
-opponentBoard.placeShip([3,1], "carrier", "vertical");
-opponentBoard.placeShip([3,4], "battleship", "horizontal");
-opponentBoard.placeShip([6,5], "cruiser", "horizontal");
+  const cpu = new cpuPlayer()
+  const opponentBoard = cpu.gameboard;
+  cpu.randomizeShips()
 
 const playerBoardElm = document.querySelector(".game-display .player-container .board .game-area")
 const opponentBoardElm = document.querySelector(".game-display .player-container.opponent .board .game-area")
@@ -25,14 +24,14 @@ const opponentBoardElm = document.querySelector(".game-display .player-container
 const playerReports = document.querySelector(".player-container .reports")
 const opponentReports = document.querySelector(".player-container.opponent .reports")
 
-const playerShipWrappers = makeShips(player1)
-const opponentShipWrappers = makeShips(player2)
+let playerShipWrappers = makeShips(player)
+let opponentShipWrappers = makeShips(cpu)
 
 // Manage turns
 playerBoardElm.classList.toggle("disable-board")
 
 window.addEventListener("load", () => {
-  loadPlayerBoard(player1, playerBoardElm, playerShipWrappers)
+  loadPlayerBoard(player, playerBoardElm, playerShipWrappers)
   loadOpponentBoard(opponentBoardElm)
 })
 
@@ -41,6 +40,13 @@ opponentBoardElm.addEventListener("mouseup", (event) => {
     renderAttack(cell, opponentBoard, opponentBoardElm, opponentShipWrappers, playerReports)
     opponentBoardElm.classList.toggle("disable-board")
     playerBoardElm.classList.toggle("disable-board")
+    let cpuAttackCell;
+    do {
+      const cpuAttackCoordinates = cpu.attackRandomCell();
+      cpuAttackCell = playerBoardElm.querySelector(`button[data-row="${cpuAttackCoordinates[0]}"][data-col="${cpuAttackCoordinates[1]}"]`)
+    }
+    while (cpuAttackCell.disabled === true)
+    cpuAttackCell.dispatchEvent(mouseupEvent);
 })
 
 playerBoardElm.addEventListener("mouseup", (event) => {
@@ -48,4 +54,11 @@ playerBoardElm.addEventListener("mouseup", (event) => {
     renderAttack(cell, playerBoard, playerBoardElm, playerShipWrappers, opponentReports)
     opponentBoardElm.classList.toggle("disable-board")
     playerBoardElm.classList.toggle("disable-board")
+})
+
+// reset game logic
+const restartButton = document.querySelector("#game-over #restart");
+
+restartButton.addEventListener("click", () => {
+  location.reload()
 })
