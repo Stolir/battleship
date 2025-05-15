@@ -197,7 +197,7 @@ export class cpuPlayer extends Player {
   // works well but only issue is it does not remember if it hit other ships while targeting a certain one it will forget about them as soon as target is sunk
   attackNextCell(enemyBoard) {
     if (this.currentTarget && this.currentTarget.isSunk()) {
-      this.clearQueues()
+      this.clearQueues();
     }
     let attack;
     const queues = this.attackQueues;
@@ -205,9 +205,9 @@ export class cpuPlayer extends Player {
       attack = this.attackRandomCell();
       if (enemyBoard[attack[0]][attack[1]] instanceof Ship) {
         this.previouslyAttacked.push(attack);
-        this.currentTarget = enemyBoard[attack[0]][attack[1]]
-        const horizontalCells = this.attackAdjacentCells(attack, "horizontal")
-        const verticalCells = this.attackAdjacentCells(attack, "vertical")
+        this.currentTarget = enemyBoard[attack[0]][attack[1]];
+        const horizontalCells = this.attackAdjacentCells(attack, "horizontal");
+        const verticalCells = this.attackAdjacentCells(attack, "vertical");
         this.queueAttack(horizontalCells, this.attackQueues.horizontal);
         this.queueAttack(verticalCells, this.attackQueues.vertical);
       }
@@ -217,7 +217,7 @@ export class cpuPlayer extends Player {
         this.previouslyAttacked.push(attack);
         const horizontalCells = this.attackAdjacentCells(attack, "horizontal");
         this.queueAttack(horizontalCells, this.attackQueues.horizontal);
-      } 
+      }
     } else if (queues.vertical.length > 0) {
       attack = this.dequeueAttack(this.attackQueues.vertical);
       if (enemyBoard[attack[0]][attack[1]] instanceof Ship) {

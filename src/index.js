@@ -1,13 +1,10 @@
 import "./styles.css";
-import { Player, cpuPlayer, Ship } from "./battleship";
+import { Player, cpuPlayer } from "./battleship";
 import {
   loadOpponentBoard,
   loadPlayerBoard,
   makeShips,
   renderAttack,
-  player1,
-  player2,
-  resetGame,
 } from "./DOMLoader";
 
 // needed to make programatic clicks bubble

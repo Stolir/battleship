@@ -1,7 +1,6 @@
 import { BOARD_SIZE, Gameboard, Player, Ship } from "./battleship";
 
 const gameOverBox = document.querySelector("#game-over");
-const gameOverMsgBox = gameOverBox.querySelector(".message");
 const playerContainers = document.querySelectorAll(".player-container");
 
 export function loadPlayerBoard(player, boardElement, shipWrappers) {
