@@ -1,4 +1,4 @@
-import { Ship, BOARD_SIZE, Gameboard, Player } from "./battleship";
+import { Ship, BOARD_SIZE, Gameboard, Player, cpuPlayer } from "./battleship";
 
 describe("Creates Ship object with correct values/methods", () => {
   let testShip;
@@ -168,8 +168,8 @@ describe("Handles player object creation", () => {
   let testPlayer;
   let testCPU;
   beforeEach(() => {
-    testPlayer = new Player("player");
-    testCPU = new Player("cpu");
+    testPlayer = new Player();
+    testCPU = new cpuPlayer();
   });
 
   test("Creates player of type player", () => {
@@ -183,4 +183,12 @@ describe("Handles player object creation", () => {
   test("Generates a gameboard for players", () => {
     expect(testPlayer).toHaveProperty("gameboard");
   });
+
+  test("Generates a gameboard for CPUs", () => {
+  expect(testCPU).toHaveProperty("gameboard");
+  });
 });
+
+describe("Handles CPU attack logic", () => {
+
+})
