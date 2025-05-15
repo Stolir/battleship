@@ -1,0 +1,2 @@
+### Battleship
+A browser-based Battleship game built with JavaScript, focusing on modular architecture, test-driven development with Jest, and DOM interaction. This project was completed as part of The Odin Project's curriculum.
