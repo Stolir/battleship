@@ -74,3 +74,11 @@ randomizeButton.addEventListener("click", () => {
   loadPlayerBoard(player, playerBoardElm, playerShipWrappers)
 })
 
+const startButton = document.querySelector("#start-game");
+startButton.addEventListener("click", () => {
+  startButton.disabled = true;
+  startButton.classList.add("disabled")
+  randomizeButton.disabled = true;
+  randomizeButton.classList.add("disabled")
+  opponentBoardElm.classList.remove("disable-board")
+})

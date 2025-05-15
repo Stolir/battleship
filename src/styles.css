@@ -222,7 +222,7 @@ header div:hover {
 
 .disable-board {
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .reports { 
@@ -231,7 +231,7 @@ header div:hover {
   flex-direction: column;
   margin: 5rem 0rem 5rem 3rem;
   overflow-y: hidden; /* or 'hidden' if you don't want scrolling */
-  max-height: 400px;
+  max-height: 350px;
 }
 
 .opponent .reports
@@ -295,4 +295,9 @@ header div:hover {
 
 .controls button:hover {
   cursor: pointer;
+}
+
+.controls button.disabled {
+  background-color: rgba(0, 0, 0, 0.568);
+  cursor: default;
 }
