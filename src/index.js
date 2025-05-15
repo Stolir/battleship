@@ -28,6 +28,7 @@ let playerShipWrappers = makeShips(player)
 let opponentShipWrappers = makeShips(cpu)
 
 // Manage turns
+opponentBoardElm.classList.toggle("disable-board")
 playerBoardElm.classList.toggle("disable-board")
 
 window.addEventListener("load", () => {
@@ -56,9 +57,20 @@ playerBoardElm.addEventListener("mouseup", (event) => {
     playerBoardElm.classList.toggle("disable-board")
 })
 
-// reset game logic
+// button functionality
 const restartButton = document.querySelector("#game-over #restart");
 
 restartButton.addEventListener("click", () => {
   location.reload()
 })
+
+const randomizeButton = document.querySelector("#randomize-ships");
+randomizeButton.addEventListener("click", () => {
+  console.log("click")
+  playerBoard.resetBoard();
+  player.randomizeShips();
+  playerBoardElm.textContent = ""
+  playerShipWrappers = makeShips(player)
+  loadPlayerBoard(player, playerBoardElm, playerShipWrappers)
+})
+

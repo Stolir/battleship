@@ -53,6 +53,11 @@ export class Gameboard {
     return board;
   }
 
+  resetBoard() {
+    this.board = [];
+    this.board = this.#generateBoard()
+  }
+
   placeShip(coordinates, shipName, orientation) {
     if (!this.#isValidShip(shipName)) {
       return ("Invalid ship name");
@@ -106,7 +111,7 @@ export class Gameboard {
     const shuffledOrientations = orientations.sort(() => Math.random() - 0.5)
     for (let orientation of shuffledOrientations) {
       if (this.#isLegal(coordinates, shipSize, orientation)) {
-        return { coordinates, orientation}
+        return { coordinates, orientation }
       }
     }
     return this.getRandomPosition(shipSize)
