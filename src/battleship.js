@@ -175,4 +175,8 @@ export class cpuPlayer extends Player {
     super();
     this.type = "cpu"
   }
+
+  attackRandomCell() {
+    return [Math.floor(Math.random() * BOARD_SIZE[0]), Math.floor(Math.random() * BOARD_SIZE[1])]
+  }
 }
