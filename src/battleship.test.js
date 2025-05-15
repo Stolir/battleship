@@ -197,7 +197,22 @@ describe("Handles player object creation", () => {
   })
 
   describe("Handles CPU attack logic", () => {
+    let coordinates;
+    beforeEach(() => {
+      coordinates = testCPU.attackRandomCell();
+    })
 
+    test("Returns array", () => {
+      expect(Array.isArray(coordinates)).toBe(true);
+    })
+    
+    test("Array consists of numbers", () => {
+      expect(coordinates.every((item) => Number.isFinite(+item))).toBe(true)
+    })
+
+    test("Array is of size 2", () => {
+      expect(coordinates.length).toBe(2)
+    })
   })
 
 });
